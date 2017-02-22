@@ -12,7 +12,13 @@
 // with the context of the animal, and 'Trogdor' as a parameter.
 
 // CODE HERE...
-
+function callBinding(magicAnimals, updateAnimal, id) {
+    for (var animal of magicAnimals) {
+        if (animal.id === id) {
+            return updateAnimal.call(animal, "Trogdor")
+        }
+    }
+}
 
 
 // *************
@@ -26,7 +32,11 @@
 // with the context of the animal, and the array ['being majestic', 'eating rainbows'] as a parameter.
 
 // CODE HERE...
-
+function applyBinding(magicAnimals, updateAnimal, id) {
+    for (animal of magicAnimals) {
+        if (animal.id === id) return updateAnimal.apply(animal, ['being majestic', 'eating rainbows'])
+    }
+}
 
 
 // *************
@@ -42,7 +52,19 @@
 
 var foo;
 // CODE HERE...
+function promiseMe($q) {
+    var deferred = new Promise(function(res, rej) {
+        setTimeout(() => {foo = "bar"; res(foo)})
+    })
+    return deferred
 
+    // var deferred = $q.defer()
+    // setTimeout(() => {
+    //     foo = "bar"
+    //     deferred.resolve(foo)
+    // }, 100)
+    // return deferred.promise
+}
 
 // *************
 // * PROBLEM 4 *
@@ -57,3 +79,21 @@ var foo;
 // and then pass the array as you complete your promise.
 
 // CODE HERE...
+function emailList($q, $http) {
+    var prom = new Promise(function(res, rej) {
+        res($http({
+            method: 'GET',
+            url: '/api/users'
+        }).then(response => {
+            console.log(response)
+            var emails = []
+            for(var user of response.data) {
+                console.log(user)
+                emails.push(user.email)
+            }
+            console.log(emails)
+            return emails;
+        }))
+    })
+    return prom;
+}
